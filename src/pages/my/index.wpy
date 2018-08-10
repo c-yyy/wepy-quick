@@ -116,11 +116,13 @@ export default class My extends wepy.page {
           _this.$invoke('toast', 'show', '无网络，请稍后重试');
         } else {
           _this.login();
+          _this.$apply();
         }
       }
     });
     wx.onNetworkStatusChange(function(res) {
       res.isConnected && _this.login();
+      _this.$apply();
     });
   }
 
