@@ -8,7 +8,7 @@ const baseUrl = wepy.$instance.globalData.baseUrl;
 
 export default class home extends fetch {
   static WeChatSns(data) {
-    const url = `${baseUrl}/wechat/sns`
+    const url = `${baseUrl}/wechat/loginToken`
     return this.post(url, data)
   }
 }
