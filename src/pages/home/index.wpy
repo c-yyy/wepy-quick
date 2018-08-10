@@ -1,0 +1,120 @@
+
+<style lang="less">
+/** less **/
+.image {
+  margin-top: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  image {
+    width: 320rpx;
+    height: 320rpx;
+  }
+}
+</style>
+
+
+<template lang="wxml">
+    <view>
+      <camera device-position="back" flash="off" binderror="error" style="width: 100%; height: 300px;"></camera>
+      <button type="primary" bindtap="takePhoto">拍照</button>
+      <view class="image">
+        <text>预览</text>
+        <image mode="widthFix" src="{{src==''?'img/no_image.png':src}}" mode="aspectFit"></image>
+      </view>
+    </view>
+    <toast />
+    <authorization />
+</template>
+
+
+<script>
+import wepy from 'wepy';
+import api from '@/api/api.js';
+import toast from '@/components/authorization';
+import authorization from '@/components/authorization';
+
+export default class Home extends wepy.page {
+  config = {
+    enablePullDownRefresh: true,
+    backgroundTextStyle: '#000',
+    onReachBottomDistance: 50,
+    navigationBarBackgroundColor: '#FFF',
+    navigationBarTitleText: '首页',
+    navigationBarTextStyle: 'black'
+  };
+
+  data = {
+    src: '',
+    customData: {}
+  };
+
+  components = {
+    toast,
+    authorization
+  };
+
+  methods = {};
+
+  takePhoto() {
+    const ctx = wx.createCameraContext();
+    ctx.takePhoto({
+      quality: 'high',
+      success: res => {
+        this.src = res.tempImagePath;
+        this.$apply();
+      }
+    });
+  }
+
+  error(e) {
+    console.log(e.detail);
+  }
+
+  async GetAPI() {
+    let res = await api.xxx();
+    let { code, data = {} } = res;
+    if (code !== '1') return false;
+    // 浅拷贝，如有需要，自行处理data后再传入
+    Object.assign(this.customData, data);
+    this.$apply(); //强制更新视图
+  }
+
+  async onPullDownRefresh() {
+    this.loadData();
+  }
+
+  /**
+   * 前页面调用多个接口加载数据，用loadData为了简化
+   * 方便刷新接口
+   */
+  loadData() {
+    // this.GetAPI();
+    wx.stopPullDownRefresh();
+  }
+
+  async login() {
+    this.$invoke('authorization', 'openLayer');
+    this.loadData();
+  }
+
+  onLoad() {
+    // let _this = this;
+    // wx.getNetworkType({
+    //   success(res) {
+    //     let networkType = res.networkType;
+    //     if (networkType == 'none') {
+    //       _this.$invoke('toast', 'show', '无网络，请稍后重试');
+    //     } else {
+    //       _this.login();
+    //     }
+    //   }
+    // });
+    // wx.onNetworkStatusChange(function(res) {
+    //   res.isConnected && _this.login();
+    // });
+  }
+
+  events = {};
+}
+</script>

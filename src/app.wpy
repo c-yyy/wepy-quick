@@ -1,0 +1,137 @@
+
+
+<style lang="scss">
+@import './styles/base';
+@import './styles/weui';
+</style>
+
+
+<script>
+import wepy from 'wepy';
+import 'wepy-async-function';
+
+import { setStore } from 'wepy-redux';
+import U from '@/utils/utils';
+import configStore from './store';
+import { TOKEN, EXPIRETOKEN } from './utils/storageKey';
+
+const store = configStore();
+setStore(store);
+
+export default class APP extends wepy.app {
+  config = {
+    pages: ['pages/home/index', 'pages/my/index'],
+    /**
+     * 若需求页面过多，首页需要优化加载速度可以试试分包(tip:总包小于10M)
+     * 配置如下，项目目录结构务必如下(tip:静态资源也能分离过去)
+     */
+    subPackages: [
+      {
+        root: 'subpages',
+        pages: ['pages/homeB/index']
+      }
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      backgroundColor: '#f5f5f5',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      selectedColor: '#000',
+      color: '#A7A7A7',
+      list: [
+        {
+          pagePath: 'pages/home/index',
+          text: '首页',
+          iconPath: 'images/home.png',
+          selectedIconPath: 'images/home_active.png'
+        },
+        {
+          pagePath: 'pages/my/index',
+          text: '我',
+          iconPath: 'images/me.png',
+          selectedIconPath: 'images/me_active.png'
+        }
+      ]
+    },
+    networkTimeout: {
+      request: 10000,
+      downloadFile: 10000
+    }
+  };
+
+  globalData = {
+    appid: 'wxb25a1bc6f122a0d0',
+    version: 'v0.0.1',
+    // baseUrl: 'https://xxx.com' // 线上接口地址
+    baseUrl: 'http://webappserver.gs.tryfits.com:3503' // 测试接口地址
+  };
+
+  constructor() {
+    super();
+    this.use('requestfix');
+    this.use('promisify');
+
+    // 拦截request请求
+    this.intercept('request', {
+      config(p) {
+        return p;
+      },
+      success(p) {
+        let { data, statusCode } = p;
+
+        if (statusCode < 300 && statusCode >= 200) {
+          return { code: 1, data };
+        } else {
+          if (data.code == '2002' || data.code == '2001') {
+            wx.setStorageSync(TOKEN, '');
+            wx.setStorageSync(EXPIRETOKEN, '');
+            return { code: -999, desc: data.msg }; //去登录
+          } else {
+            return { code: -1, desc: data.msg };
+          }
+        }
+      },
+      fail(p) {
+        console.log('request fail: ', p);
+        return p;
+      },
+      complete(p) {}
+    });
+  }
+
+  /**
+   * 启动项目时
+   */
+  async onLaunch(param) {
+    // 校验SDK
+    U.checkSDK();
+    // 同步开放平台EXT数据
+    const ext = await wepy.getExtConfigSync();
+    if (ext.globalConfig) {
+      Object.assign(ext, ext.globalConfig);
+    }
+    Object.assign(wepy.$instance.globalData, ext);
+    // 同步权限数据
+    this.syncStoreConfig('scene');
+    // 获取保存场景值
+    if (param && param.scene) {
+      wepy.$instance.globalData.scene = param.scene;
+    }
+  }
+  async syncStoreConfig(key) {
+    try {
+      const value = await wepy.getStorageSync(key);
+      if (value !== '') {
+        console.info(`${key} sync success `);
+        wepy.$instance.globalData.scene[key] = value;
+      }
+    } catch (e) {
+      console.warn(`${key} sync fail `);
+    }
+  }
+}
+</script>
+
