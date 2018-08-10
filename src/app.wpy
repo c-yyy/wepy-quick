@@ -88,7 +88,7 @@ export default class APP extends wepy.app {
           if (data.code == '2002' || data.code == '2001') {
             wx.setStorageSync(TOKEN, '');
             wx.setStorageSync(EXPIRETOKEN, '');
-            return { code: -999, desc: data.msg }; //去登录
+            return { code: -999, desc: data.msg }; // 校验token过期状态码后重新登录
           } else {
             return { code: -1, desc: data.msg };
           }
