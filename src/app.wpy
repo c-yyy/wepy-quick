@@ -63,7 +63,7 @@ export default class APP extends wepy.app {
   };
 
   globalData = {
-    appid: 'wx123123123123123',
+    appid: 'wxb25a1bc6f122a0d0',
     version: 'v0.0.1',
     // baseUrl: 'https://xxx.com' // 线上接口地址
     baseUrl: 'http://webappserver.gs.tryfits.com:3503' // 测试接口地址
@@ -88,7 +88,7 @@ export default class APP extends wepy.app {
           if (data.code == '2002' || data.code == '2001') {
             wx.setStorageSync(TOKEN, '');
             wx.setStorageSync(EXPIRETOKEN, '');
-            return { code: -999, desc: data.msg }; // 校验token过期状态码后重新登录
+            return { code: -999, desc: data.msg }; //去登录
           } else {
             return { code: -1, desc: data.msg };
           }

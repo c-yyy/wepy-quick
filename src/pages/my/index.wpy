@@ -38,7 +38,7 @@
         <movable-view class="avatar" style="width:168rpx;height:168rpx;margin-top:80rpx;" x="{{x}}" y="{{y}}" damping="50" friction="0" inertia="true" @change="htouchmove" direction="all">
           <image src="{{userInfo.avatarUrl}}" mode="aspectFit" />
         </movable-view>
-        <text @tap.stop="comeBack">{{userInfo.nickName?userInfo.nickName:'...'}}</text>
+        <text @tap.stop="comeBack">{{userInfo.nickName}}</text>
       </movable-area>
       <toast />
       <authorization />
@@ -116,13 +116,11 @@ export default class My extends wepy.page {
           _this.$invoke('toast', 'show', '无网络，请稍后重试');
         } else {
           _this.login();
-          _this.$apply();
         }
       }
     });
     wx.onNetworkStatusChange(function(res) {
       res.isConnected && _this.login();
-      _this.$apply();
     });
   }
 
