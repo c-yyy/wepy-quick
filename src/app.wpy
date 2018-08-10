@@ -20,7 +20,7 @@ setStore(store);
 
 export default class APP extends wepy.app {
   config = {
-    pages: ['pages/home/index', 'pages/my/index'],
+    pages: ['pages/my/index', 'pages/home/index'],
     /**
      * 若需求页面过多，首页需要优化加载速度可以试试分包(tip:总包小于10M)
      * 配置如下，项目目录结构务必如下(tip:静态资源也能分离过去)

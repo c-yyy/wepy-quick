@@ -4,7 +4,6 @@
       <text class="title">需要登录后才能继续操作</text>
       <button class="auth" lang="zh-CN" open-type="getUserInfo" bindgetuserinfo="goLogin" @tap="closeLayer">授权登录</button>  
   	</view>
-	</view>
   <toast />
 </template>
 

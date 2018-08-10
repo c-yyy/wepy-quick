@@ -27,19 +27,70 @@
       letter-spacing: 0;
     }
   }
+  .mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+  }
+  .authorize-contianer {
+    width: 648rpx;
+    height: 334rpx;
+    border-radius: 10rpx;
+    position: fixed;
+    top: 300rpx;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    background-color: #fff;
+    z-index: 101;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.5s ease;
+    .auth-item {
+      line-height: 250rpx;
+      font-size: 34rpx;
+      font-weight: 600;
+      color: #6a6a6a;
+    }
+    .auth-btn {
+      background-color: rgb(89, 240, 140);
+      font-size: 34rpx;
+      color: #000;
+      font-weight: 600;
+    }
+  }
+}
+.show {
+  opacity: 1;
+  transform: scale(1);
+}
+.hide {
+  opacity: 0;
+  transform: scale(0);
 }
 </style>
 
 
 <template lang="wxml">
     <view class="my">
-      <movable-area style="height: {{windowHeight}}; width: 750rpx;position: absolute;top:0;left:0;" class="user">
+      <movable-area class="user" style="height: {{windowHeight}}; width: 750rpx;position: absolute;top:0;left:0;">
         <!-- direction：all、vertical、horizontal、none -->
         <movable-view class="avatar" style="width:168rpx;height:168rpx;margin-top:80rpx;" x="{{x}}" y="{{y}}" damping="50" friction="0" inertia="true" @change="htouchmove" direction="all">
           <image src="{{userInfo.avatarUrl}}" mode="aspectFit" />
         </movable-view>
         <text @tap.stop="comeBack">{{userInfo.nickName}}</text>
       </movable-area>
+      <view class="mask" wx:if="{{authShow}}" @tap.stop="closeLayer" catchtouchmove="{{false}}"></view>
+      <view class="auth-alert {{authShow?'show':'hide'}}" catchtouchmove="{{false}}">
+        <text class="title">需要登录后才能继续操作</text>
+        <button class="auth" lang="zh-CN" open-type="getUserInfo" bindgetuserinfo="auth" @tap="closeLayer">授权登录</button>  
+      </view>
       <toast />
       <authorization />
     </view>
@@ -68,7 +119,8 @@ export default class My extends wepy.page {
   components = { authorization, toast };
 
   data = {
-    userInfo: wx.getStorageSync('userInfo'),
+    authShow: false,
+    userInfo: {},
     windowHeight: wx.getSystemInfoSync().windowHeight * 2 + 'rpx',
     x: 64 + 'rpx',
     y: 80 + 'rpx'
@@ -100,22 +152,63 @@ export default class My extends wepy.page {
     }
   }
 
-  methods = {};
+  methods = {
+    closeLayer() {
+      this.authShow = false;
+    }
+  };
 
   async login() {
+    this.authShow = true;
+    console.log('现在是伪登录,快将登录代码解封吧!');
+    this.$apply();
     // 登录授权弹层
-    this.$invoke('authorization', 'openLayer');
+    // this.$invoke('authorization', 'openLayer');
   }
 
-  onLoad() {
+  async auth(e) {
     let _this = this;
+    if (e.detail.errMsg == 'getUserInfo:ok') {
+      this.userInfo = e.detail.userInfo;
+      const login = await wepy.login();
+      const sys = wepy.getSystemInfoSync();
+      if (login.code) {
+        wepy.setStorageSync('userInfo', e.detail.userInfo);
+        wepy.setStorageSync('sysInfo', sys);
+        wx.checkSession({
+          success() {
+            //session_key 未过期，并且在本生命周期一直有效
+            _this.authShow = false;
+            _this.$apply();
+            wepy.switchTab({
+              url: '/pages/home/index'
+            });
+          },
+          fail() {
+            // session_key 已经失效，需要重新执行登录流程
+            _this.$invoke('toast', 'show', 'session_key失效');
+            wepy.login(); //重新登录
+          }
+        });
+      }
+    }
+  }
+
+  async onLoad() {
+    let _this = this;
+    let setting = await wepy.getSetting();
     wx.getNetworkType({
       success(res) {
         let networkType = res.networkType;
         if (networkType == 'none') {
           _this.$invoke('toast', 'show', '无网络，请稍后重试');
         } else {
-          _this.login();
+          if (setting.authSetting['scope.userInfo']) {
+            _this.userInfo = wepy.getStorageSync('userInfo');
+            _this.$apply();
+          } else {
+            _this.login();
+          }
         }
       }
     });
