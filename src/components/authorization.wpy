@@ -54,7 +54,7 @@ export default class Auth extends wepy.component {
             }
           });
           let { code, data } = weChat;
-          if (code == '-1')
+          if (code == '-999')
             return this.$invoke('toast', 'show', '登录过期、请重新登录'); //登录过期
           if (code !== '1') return false;
         } else {
