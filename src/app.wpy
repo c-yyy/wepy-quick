@@ -63,7 +63,7 @@ export default class APP extends wepy.app {
   };
 
   globalData = {
-    appid: 'wxb25a1bc6f122a0d0',
+    appid: 'wx123123123123123',
     version: 'v0.0.1',
     // baseUrl: 'https://xxx.com' // 线上接口地址
     baseUrl: 'http://webappserver.gs.tryfits.com:3503' // 测试接口地址
