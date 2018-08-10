@@ -66,7 +66,7 @@ export default class APP extends wepy.app {
     appid: 'wxb25a1bc6f122a0d0',
     version: 'v0.0.1',
     // baseUrl: 'https://xxx.com' // 线上接口地址
-    baseUrl: 'http://webappserver.gs.tryfits.com:3503' // 测试接口地址
+    baseUrl: 'http://xxx/com' // 测试接口地址
   };
 
   constructor() {
