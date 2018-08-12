@@ -12,7 +12,7 @@
 ## 注意事项
 * nrm use taobao
 * node-sass出错因为被墙,若未用到可忽略
-* do not use my appid
+* 这里安利一个npm包，npm i -g caiyi，就是提供方便，本地起ip(支持反向代理)、压缩图片等一个命令就搞定
 
 ## 微信小程序wepy框架开发资源汇总!
 - [wepy官方仓库](https://github.com/Tencent/wepy)
