@@ -1,9 +1,6 @@
 
 
-<style lang="scss">
-@import './styles/base';
-@import './styles/weui';
-</style>
+<style lang="scss" src="./styles/base.scss"></style>
 
 
 <script>
