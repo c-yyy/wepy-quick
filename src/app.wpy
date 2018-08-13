@@ -60,7 +60,7 @@ export default class APP extends wepy.app {
   };
 
   globalData = {
-    appid: 'wxb25a1bc6f122a0d0',
+    appid: 'wx1234567',
     version: 'v0.0.1',
     // baseUrl: 'https://xxx.com' // 线上接口地址
     baseUrl: 'http://xxx/com' // 测试接口地址
@@ -103,7 +103,10 @@ export default class APP extends wepy.app {
    * 启动项目时
    */
   async onLaunch(param) {
-    console.log("%c", "padding:50px 300px;line-height:120px;background:url('https://images0.cnblogs.com/blog/431064/201402/072156353445447.gif') no-repeat;");
+    console.log(
+      '%c',
+      "padding:50px 300px;line-height:120px;background:url('https://images0.cnblogs.com/blog/431064/201402/072156353445447.gif') no-repeat;"
+    );
     // 校验SDK
     U.checkSDK();
     // 同步开放平台EXT数据
