@@ -106,6 +106,7 @@ export default class APP extends wepy.app {
    * 启动项目时
    */
   async onLaunch(param) {
+    console.log("%c", "padding:50px 300px;line-height:120px;background:url('https://images0.cnblogs.com/blog/431064/201402/072156353445447.gif') no-repeat;");
     // 校验SDK
     U.checkSDK();
     // 同步开放平台EXT数据
