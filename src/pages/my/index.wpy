@@ -3,10 +3,6 @@
 <style lang="less">
 /** less **/
 .my {
-  image {
-    width: 750rpx;
-    height: 240rpx;
-  }
   .user {
     .avatar {
       image {
@@ -125,6 +121,8 @@ export default class My extends wepy.page {
     x: 64 + 'rpx',
     y: 80 + 'rpx'
   };
+  
+  mixins = [toast.mixin];
 
   watch = {
     //监听器适用于当属性改变时需要进行某些额外处理的情形。
@@ -160,7 +158,9 @@ export default class My extends wepy.page {
 
   async login() {
     this.authShow = true;
-    console.log('现在是伪登录,快将登录代码解封吧!');
+    let warningTip = await this.$warningTip('现在是伪登录,快将登录代码解封吧!', {
+      duration: 3000
+    });
     this.$apply();
     // 登录授权弹层
     // this.$invoke('authorization', 'openLayer');
