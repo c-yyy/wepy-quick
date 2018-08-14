@@ -16,11 +16,11 @@
 
 <template lang="wxml">
     <view>
-      <camera device-position="back" flash="off" binderror="error" style="width: 100%; height: 300px;"></camera>
-      <button type="primary" bindtap="takePhoto">拍照</button>
+      <camera device-position="back" flash="off" binderror="cameraError" style="width: 100%; height: 300px;"></camera>
+      <button type="primary" @tap.stop="takePhoto">拍照</button>
       <view class="image">
         <text>预览</text>
-        <image mode="widthFix" src="{{src==''?'img/no_image.png':src}}" mode="aspectFit"></image>
+        <image @tap.stop="previewImage({{src}})" mode="widthFix" src="{{src==''?'img/no_image.png':src}}" mode="aspectFit"></image>
       </view>
     </view>
     <toast />
@@ -46,6 +46,7 @@ export default class Home extends wepy.page {
 
   data = {
     src: '',
+    imgList: [],
     customData: {}
   };
 
@@ -54,20 +55,24 @@ export default class Home extends wepy.page {
     authorization
   };
 
-  methods = {};
+  methods = {
+    previewImage(src) {
+      wx.previewImage({ current: src, urls: this.imgList });
+    },
+    takePhoto() {
+      const ctx = wx.createCameraContext();
+      ctx.takePhoto({
+        quality: 'high',
+        success: res => {
+          this.imgList.push(res.tempImagePath);
+          this.src = res.tempImagePath;
+          this.$apply();
+        }
+      });
+    }
+  };
 
-  takePhoto() {
-    const ctx = wx.createCameraContext();
-    ctx.takePhoto({
-      quality: 'high',
-      success: res => {
-        this.src = res.tempImagePath;
-        this.$apply();
-      }
-    });
-  }
-
-  error(e) {
+  cameraError(e) {
     console.log(e.detail);
   }
 
