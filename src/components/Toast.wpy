@@ -1,119 +1,227 @@
+<style lang="less">
+@keyframes simple-toast-fall-down {
+  0% {
+    transform: translateY(-40rpx);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0rpx);
+    opacity: 1;
+  }
+}
 
+.simple-toast {
+  display: block;
+}
+.simple-toast-box {
+  position: fixed;
+  top: 10rpx;
+  left: 0;
+  font-size: 12rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
 
+.simple-toast-content {
+  animation: simple-toast-fall-down 0.5s ease 1;
+  background: white;
+  padding: 8rpx 16rpx;
+  border-radius: 4rpx;
+  border: 1rpx #ddd solid;
+  box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0.2);
+  display: flex;
+  opacity: 1;
+  position: relative;
+  top: 0;
+  align-items: center;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+.simple-toast-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 10rpx;
+}
+
+.simple-toast-transition {
+  transition: top 500ms, opacity 500ms;
+  opacity: 0;
+  top: -40rpx;
+  position: absolute;
+}
+
+.simple-toast-item {
+  position: relative;
+}
+
+.simple-toast-item + .simple-toast-item {
+  margin-top: 5rpx;
+}
+
+@keyframes simple-toast-temp-remove {
+  0% {
+    height: 35rpx;
+    padding-top: 8rpx;
+    padding-bottom: 8rpx;
+    border: none;
+  }
+  100% {
+    height: 0rpx;
+    padding-top: 0rpx;
+    padding-bottom: 0rpx;
+    border: none;
+  }
+}
+
+.simple-toast-remove-temp {
+  height: 0rpx;
+  animation: simple-toast-temp-remove 0.5s ease 1;
+  padding: 8rpx 16rpx;
+  border-radius: 4rpx;
+  border: 1rpx #ddd solid;
+  box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0.2);
+  display: flex;
+  position: relative;
+  align-items: center;
+  word-break: keep-all;
+  white-space: nowrap;
+  opacity: 0;
+}
+</style>
 <template>
-	<view class="swpy-tipbox-mask {{visible?'swpy-tipbox-show':''}}">
-		<view class="swpy-tipbox" style="{{cssText}}">{{tip}}</view>
-	</view>
+  <view class="simple-toast">
+    <view class="simple-toast-box">
+      <view class="simple-toast-item" wx:for="{{tipList}}" wx:for-item="item" wx:key="index">
+        <view class="simple-toast-content {{item.isRemove ?'simple-toast-transition':''}}">
+          <image src="{{icons[item.type]}}" class="simple-toast-icon" />
+          <text>{{item.title}}</text>
+        </view>
+        <view wx:if="{{item.isRemove}}" class="simple-toast-remove-temp">
+          <image src="{{icons[item.type]}}" class="simple-toast-icon" />
+          <text>{{item.title}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
 import wepy from 'wepy';
+const INFO_ICON_DATA =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAADDklEQVRYhb3ZTahVVRjG8d/dXjNT067UpRIaSET4AVZKVEQfgohFNDGjUeFEEzFQIZrU5A7CgdFA6GPSwFR0FtdBZDeoiWjUoNTID8hKEK1Mo4uUDdbZ3HXOPefcs+9+Tw9sePdm7Wf92eustd71noFlu35XQ8N4Ag9jGRZhPgbwF37G9ziGz/HjdDsamAbofGzCY3gaN1d496vG9SF+qNJpFdBhvILtGKrSSQftxvvSF59SRY+m63ESI2IgYRu+w+u9NO4FdB/2Y0ENqG4awbe4o1ujbqBzcBwvBEJ10nJpxB7s1KAT6EKM4YF4po66DUck6EnqBPoFHuoXURfdii+1+Rm0A92PJf0m6qJ5+Lr1YSvos9IMn65u4C1sxdUaPnfj3fxBDroQH9cwh3fwZqOTl2t6bcGK8iYH3SzN9Do6mcXHa3rB22VQgs7BzgDj4Sy+M8BvNZ5iAvRVzA0wnpXFtwT4wUYmQNcEmc7I4ijQNZhZSNnQo0GmM7N4dpDnEJ4psFbzkNVR/kVvCvKE5ws8Emg4mMVV8tSpdH+BpYGGOWjU0MNQgXsCDXPQyKGfW4ibnTTDRfrOKKSDWJTynS7yiyowHuh3LYuvBPreKPBLoOHKLF4V6HttECekc3mEVkiJySWxy94fBY4GGsJ9YiHhTIFPgk37odEC58XkjnARO6Tc9lSQ5zgOlQv0EV2OqhW0CYca8T6p9lR3hxrD5XLd21PTrNS5LP4N1wM89zKxQJ+VCld19R7ulY67B6Tjbx2dwEc0F8kW4aeaxqXGxaSO6zBK85Z3Hm8EmBMDOaYByeRz/Yi42VpXz+U37Solq8RMgjp6Ukuu0A70irSz/Pl/ELXRi9KwN6lTkewYHseFPgK100vS+jtJ3eqj30glwNP9IGrRdWm493ZqMFXF+aKUZOwOhGrVKBZrM9y5eimN/4PXpPLKwdpYEzoqVbPX6WH9HpyqQabPGtdabJDA76oI97f0BQ/jgyovVgEtdbhxzZLWutXSkft2qQhbev4r1UgvSX+Efdp479dp9Ok/0a187lcmvOYAAAAASUVORK5CYII=';
+const SUCCESS_ICON_DATA =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAADQElEQVRYhc3ZT2gcZRjH8U/GHIpEENpa1B7Eag6tICpJREVRY7GtxYsnkUrRFLSHqgfBgxU9BbXsxR4iIhgUFAQv/iktxn9UTSuipQpqFW+2Qq2IEktb9fDuZGcmO7szO7MbvxDCs/s8+/yYed53nuedoYvndqrA9ZjEODZgdeb7P/ANDuEzvNtrouEeYjbgIdyK9V18L8Cl2Ni0f8bHeBUHyiQtI3Qcu3BvmQQZLmv+bROENvBekcCoYILdmFdNZJY7hFJ4BRd2c+4mdBW+wNPVdeWyDccw1smpk9AJHMV1NYrKY6Ww4B7Ic8ir0TEcxHl9ENWJl/An3sh+0e6KjmDO4EXGvC4s3BTthM4LYpeTeWFrWyQr9Bnd98ZB8VbSSAodxZOD1dKR23FPbCSFPjt4LV1pYIiW0FHcvWxy8lmL+2kJ3TXA5KdwBaYL+m+nJfTOfihqwy/C1vMjnsBTBWJuwtpIeAJd3j9tixzDLc3/ZYiwfRh31S6pPWP4PWHvxcMFYycjXFW7pKVMSIt8QXGRsDLSpWupgU1CwxHTQNmxYk2ENbVJSnNOKKt9ic/24JEefmskwkLJoF8L+m3GOwl7Bo+VzBVzpmiHHzMnjBJzXfzGsT9hv4gdJXOliLCioO9e4fm7gC34JMdvEw4n7AamehXYZDjCbz0E/o3bpMXWWZNZFiJ8WdB5Jz5P2GdxM75q2tmabOi9JrOciHCkRMCE9FYD12KdpTVZx5WMORnhg5JB8TwV8y9+StgzqtdklsMR3heahTLcINzm7Fy1R8XVncPLkVBrH/UQvFlYOBc17TprMskRHI330Zkef2RSaNm+V29NJnmNVj/6ofTeV4YRXFmDoHacFvbv1Mz0aJ+SVWE3/iIt9KAw/P9f+A7Px0b2WX8fzgxUTj5b8E9sZIWe0//+tAhTwiJdpF339LXmiLpMTAuHZSny2rxZQezZfipqw7QwnS6hUz86ixuFY8BBMCVHJN1PnA8JhwVv16kow7e4RpvbnaRIh38CW4VS+KG6rkVO4XFcrdUq5lJmFJkVzqgeVOF9ET4VbvE6PKfgOhiq8EJsVLjSG3GJ8DLs/IzPaWEYPC4czr6peKOe4j9fqZGn/zrS8gAAAABJRU5ErkJggg==';
+const WARNING_ICON_DATA =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAACwklEQVRYhc3ZX8hMeRzH8ddzGhZFNoS48bfdyJ+SJAqbtau2bS8ktpXaJcQVruXajZAIkbRc2E1pS22yaJdta/fR2qct698FKfGIcOHPuvjN4TzjzMyZOWeeed41ze93/nzPuzlnfr/P/Kbj//3y8BE+wyJMwYiK/Y/xDy7hDC43e6GOJkQ/xrf4BDMaPPcGzuM4fm7kxEZEp2IVtjZygRp8jwP4JcvBUcaiG/G34iRhJc5hLwbVO7ie6BD8it35vaqyHtcxrdZBtUTH4F/MLVCqGqNwBYurHVBNdJJwW0a3QKoWP2F+2o400Q78Lsj2Nv1wAdMrd6SJXsaHrTaqwx8YkNxQKboWs3tNpzr98ENyQ1J0PPLNU4ErwqCel6VYGHeSokWMkYeE2WoBNuF1zno74kY8M03EtZxFCUPa3US/G0Nz1lyBE/EnujZnsZhPE+1RGFhAze+gVO58UUBBwjM+Bc/xNT4ooOYijC1hnBDXiqA/thRUK6YDq0tYXmDRo7hZbvfH5vJ7XpaUMK+AQjHbcCvR36AY0WGRxsNvLSYk2oNlj5H1GB5hZEHFWsngSPiG9nVeFHVrWk6kIqX0UUoRHrbbIgNPI3S22yID3RH+ardFBroj/NhuiwxcjITYf7vdJnU4Eg9P59qqUZuruBqLHimo6PVE+4n8CR8O8y6Pnsdp+XPpdj3TU97gfAc76blINkPfGwG+wTF6pptO7GmLTjpdypK8H8M2Cc9WX+DLZCctlMzpJZFarMF/yQ1pol34HC97wyiFdThYubFazDsj/Pp71UqjFNarslpTK49exCw8aIVRCmuwr9rOesG5U1hFOVWkUQVdmCnldifJkvAf4avy62x+r7fcE271dBmiZjN/36zGMmG1rRl+E2bBXXiW9aRmRGMmC1PuEmFxbJj3/914LXxy94Vn/iT+bOZibwCO0HTMrSsaZwAAAABJRU5ErkJggg==';
+const ERROR_ICON_DATA =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAADnElEQVRYhc3ZW4hVVRzH8c9s7KZBNZeyaByICCorKsKwYKxEu8fQRQgKinpQ5sHs4ntBVBTRUxfoLaiEJLKy0TQnfagwKyRKiahg7IYjDGbz0uXhf7btM+19zt77zJz6woG99qz/Wr+zZ+3//7fW6Tk4PKADFmIZLscFjXYfEhzCL/gKn2A7vq07UU8NoSdhNa7EchxXIXZX4/MyvqkyaRWhC3EPHkJvlUkKeBYvYl+ZzknJQe8Q/8LHzY5IeABfY32ZzmWEvobXcXIHolrxBD4Va7uQVkIXYA9WzaKoIi4RS+Ciog5FQnvxAS6eA1FF9InMcH7eH4uEfojL5kpRC3qxU84yyBO6QcG36hKniDXbxEyhN+H2rshpzRCeyd7I5tE+/ID5XRbViguxl+Ynusb/SyQ8mV6kQhfgkf9GS0uuE6X6qNBRnFhhgKdwtmrrebQRc1+FGLiff9bodlxVIbgncz2MHW36r8HzmfYEzig51684LRHp4IqSQSkjmetxrMAfBX3XzhB5lnBgZRnA9QmuxbEVAmGjxtppsBUrc/o9jOcy7VPxkXgnqjCSYGnFoJRxXJNpb9Msdh2ezrQXCe9Qx6kvnofFNQKJF3EMN+Pdxr0tuAtnCr+ZMoTd6K85V2/PweGBfTin5gApK4XIPAbxmTY2rg0HEtUWdhFjuDvn/lLs15lIOCFR3uW3YyjnXj+On4WxexJMzcJA6/BYzv235GeDqkwnYkvbCes1vziX4pZMewtu7HCO3xKxwarLWlFOUwbFHv5NUQRS3hEW8s+a80wlIgHXYbXmZD4o8mS65sdEMUl5W5TbOuxPxLetyiheyLRTkTPz5GbckGnvEp6iqNwWsSk1JbvF2ipL1pSc3ohvZTKWiUqWcqARV4YjGqYE3i8ZlHIvjhFV7QvtndAOXI15wiNUqVDbcDh9okP4rppWP4ljnir8qPyTTFmFDekT/R4vVRygqkiqi/xc7IqbqtKjNSaeax5ML7JCJ5Q8sOoSm8XOA/nHjl/ivG4qKmA+fk8beYZkCaa7JiefJTIiyRd6WOyhDnVDUQ4jogw3UWTx9ohyNzGXinK4TfiEf9HKi+4VRyqljq475Ij4weKNog7tTPMkztXskGabjWIL/XGrTmXc/V8ibQ3j1c51HWVcrMdb8XO7znV+vlmOO8VWeVHF2Cm8h014pUpgHaEpiTDDK8TZe784v0pPBKdFBpkU5nyrSOKTdSb7G6RIoAsNOfeZAAAAAElFTkSuQmCC';
 
-export default class Toast extends wepy.component {
+class toastMixin extends wepy.mixin {
+  $successTip(title, options) {
+    return this.$invoke(
+      this.toastTagName || 'toast',
+      'success',
+      title,
+      options
+    );
+  }
 
-	data = {
-		visible: false,
-		position: '',
-		margin: '',
-		tip: ''
-	};
+  $errorTip(title, options) {
+    return this.$invoke(this.toastTagName || 'toast', 'error', title, options);
+  }
 
-	computed = {
-		cssText() {
-			let styles = {};
-			if (this.position === 'top') {
-				styles.position = this.position;
-				styles.top = this.margin || '';
-			} else if (this.position === 'bottom') {
-				styles.position = this.position;
-				styles.top = 'initial';
-				styles.bottom = this.margin || '';
-			}
-			let css = Object.keys(styles).map(
-				key => (key + ':' + styles[key])
-			).join(';');
-			return css;
-		}
-	};
+  $warningTip(title, options) {
+    return this.$invoke(
+      this.toastTagName || 'toast',
+      'warning',
+      title,
+      options
+    );
+  }
 
-	show(text, options={}) {
-		if (!text) {
-			return;
-		}
+  $infoTip(title, options) {
+    return this.$invoke(this.toastTagName || 'toast', 'info', title, options);
+  }
+}
 
-		let conf = Object.assign({
-			position: 'bottom',
-			margin: '40rpx'
-		}, options);
+export default class toast extends wepy.component {
+  static mixin = toastMixin;
+  data = {
+    icons: {
+      info: INFO_ICON_DATA,
+      success: SUCCESS_ICON_DATA,
+      warning: WARNING_ICON_DATA,
+      error: ERROR_ICON_DATA
+    },
+    id: 0,
+    tipList: []
+  };
 
-		this.hide();
+  events = {};
 
-		this.position = conf.position;
-		this.margin = conf.margin;
+  methods = {
+    show(arg, options = { type: 'success', duration: 3000 }) {
+      return new Promise((resolve, reject) => {
+        typeof arg === 'string'
+          ? (options.title = arg)
+          : (options = { ...options, ...arg });
+        options.id = this.id++;
+        // if (this.id > 999999) { this.id = 0 }
+        this.tipList.push(options);
+        setTimeout(() => {
+          this.methods.removeItem.call(this, options.id);
+          let callBackData = {
+            status: `removed`,
+            options
+          };
+          resolve(callBackData);
+        }, options.duration);
+      });
+    },
+    getOptions(arg1, arg2 = {}) {
+      let options =
+        arg2 !== undefined && arg2.type && arg2.type === 'invoke' ? {} : arg2;
+      if (typeof arg1 === 'string') {
+        options.title = arg1;
+      } else {
+        options = { ...options, ...arg1 };
+      }
+      return options;
+    },
+    removeItem(id) {
+      this.tipList.map(item => {
+        if (id === item.id) {
+          item.isRemove = true;
+          this.$apply();
+        }
+      });
+      setTimeout(() => {
+        this.tipList = this.tipList.filter(item => id !== item.id);
+      }, 500);
+    },
+    info(arg1, arg2) {
+      let options = this.methods.getOptions(arg1, arg2);
+      return this.methods.show.call(this, { ...options, type: 'info' });
+    },
+    success(arg1, arg2) {
+      let options = this.methods.getOptions(arg1, arg2);
+      return this.methods.show.call(this, { ...options, type: 'success' });
+    },
+    warning(arg1, arg2) {
+      let options = this.methods.getOptions(arg1, arg2);
+      return this.methods.show.call(this, { ...options, type: 'warning' });
+    },
+    error(arg1, arg2) {
+      let options = this.methods.getOptions(arg1, arg2);
+      return this.methods.show.call(this, { ...options, type: 'error' });
+    }
+  };
 
-		setTimeout(() => {
-			this.visible = true;
-			this.tip = text;
-			this.$apply();
-		}, 20);
-
-		if (this.timer) {
-			clearTimeout(this.timer);
-			this.timer = null;
-		}
-		this.timer = setTimeout(() => this.hide(), 2000);
-	}
-
-	hide() {
-		this.visible = false;
-		this.tip = '';
-		this.position = '';
-		this.margin = '';
-		this.$apply();
-	}
+  onLoad() {}
 }
 </script>
-
-<style lang="css">
-.swpy-tipbox-mask{
-	display: none;
-	position: fixed;
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
-	z-index: 10000;
-	pointer-events: none;
-}
-
-.swpy-tipbox-show{
-	display: block;
-}
-
-.swpy-tipbox{
-	position: absolute;
-	margin: 0 auto;
-	top: 50%;
-	left: 50%;
-	opacity: 0;
-	max-width: 20rem;
-	overflow: hidden;
-	background-color: rgba(0,0,0,0.8);
-	padding: 10px 20px;
-	font-size: 14px;
-	line-height: 18px;
-	border: none;
-	color: #fff;
-	border-radius: 5px;
-	word-break: break-all;
-	transform: translateX(-50%) translateY(-50%);
-	animation: swpy-tipbox-fx 2s ease-in-out;
-}
-
-@keyframes swpy-tipbox-fx {
-	0% { opacity:0; transform:translateX(-50%) translateY(-50%) scale(1.5); }
-	10% { opacity:1; transform:translateX(-50%) translateY(-50%) scale(1); }
-	90% { opacity:1; transform:translateX(-50%) translateY(-50%) scale(1); }
-	100% { opacity:0; transform:translateX(-50%) translateY(-50%) scale(1); }
-}
-</style>
