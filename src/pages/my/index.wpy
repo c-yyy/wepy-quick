@@ -117,7 +117,7 @@ export default class My extends wepy.page {
   data = {
     authShow: false,
     userInfo: {},
-    windowHeight: wx.getSystemInfoSync().windowHeight * 2  120 + 'rpx',
+    windowHeight: wx.getSystemInfoSync().windowHeight * 2 - 120 + 'rpx',
     x: 64 + 'rpx',
     y: 80 + 'rpx'
   };
