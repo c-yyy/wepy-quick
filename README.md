@@ -14,6 +14,7 @@
 * nrm use taobao
 * 内置npm start命令运行wepy build --watach，npm run build进行打包(代码量，体积较小)
 * node-sass出错因为被墙,若未用到可忽略
+* 由于默认install loaddash，所以npm i 这个过程会久一点
 * 启动后，将详情内的前四项关闭，是否校验合法域名，根据个人配置的域名白名单决定
 * 尽量使用appid打开，现在微信开发者工具内置测试appid
 * 这里安利一个npm包，npm i -g caiyi，就是提供方便，本地起ip(支持反向代理)、压缩图片等一个命令就搞定
