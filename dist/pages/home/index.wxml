@@ -1,0 +1,54 @@
+
+    <view>
+      <camera device-position="back" flash="off" binderror="cameraError" style="width: 100%; height: 300px;"/>
+      <button type="primary" catchtap="takePhoto">拍照</button>
+      <view class="image">
+        <text>预览</text>
+        <image catchtap="previewImage" mode="aspectFit" src="{{src==''?'img/no_image.png':src}}" data-wpypreviewimage-a="{{src}}"/>
+      </view>
+    </view>
+    
+    <view class="mask"  wx:if="{{$toast$inviteShow}}" catchtap="$toast$closeInvite" catchtouchmove="$toast${{$toast$false}}"/>
+    <view class="auth-alert {{$toast$inviteShow?'show':'hide'}}" catchtouchmove="$toast${{$toast$false}}">
+      <text class="title">需要登录后才能继续操作</text>
+      <button class="auth" lang="zh-CN" open-type="getUserInfo" bindgetuserinfo="$toast$goLogin" bindtap="$toast$closeLayer">授权登录</button>  
+  	</view>
+  
+  <view class="simple-toast">
+    <view class="simple-toast-box">
+      <view class="simple-toast-item"  wx:for="{{$toast$toast$tipList}}" wx:for-item="item" wx:key="index">
+        <view class="simple-toast-content {{item.isRemove ?'simple-toast-transition':''}}">
+          <image src="{{$toast$toast$icons[item.type]}}" class="simple-toast-icon"/>
+          <text>{{item.title}}</text>
+        </view>
+        <view wx:if="{{item.isRemove}}" class="simple-toast-remove-temp">
+          <image src="{{$toast$toast$icons[item.type]}}" class="simple-toast-icon"/>
+          <text>{{item.title}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+    
+    <view class="mask"  wx:if="{{$authorization$inviteShow}}" catchtap="$authorization$closeInvite" catchtouchmove="$authorization${{$authorization$false}}"/>
+    <view class="auth-alert {{$authorization$inviteShow?'show':'hide'}}" catchtouchmove="$authorization${{$authorization$false}}">
+      <text class="title">需要登录后才能继续操作</text>
+      <button class="auth" lang="zh-CN" open-type="getUserInfo" bindgetuserinfo="$authorization$goLogin" bindtap="$authorization$closeLayer">授权登录</button>  
+  	</view>
+  
+  <view class="simple-toast">
+    <view class="simple-toast-box">
+      <view class="simple-toast-item"  wx:for="{{$authorization$toast$tipList}}" wx:for-item="item" wx:key="index">
+        <view class="simple-toast-content {{item.isRemove ?'simple-toast-transition':''}}">
+          <image src="{{$authorization$toast$icons[item.type]}}" class="simple-toast-icon"/>
+          <text>{{item.title}}</text>
+        </view>
+        <view wx:if="{{item.isRemove}}" class="simple-toast-remove-temp">
+          <image src="{{$authorization$toast$icons[item.type]}}" class="simple-toast-icon"/>
+          <text>{{item.title}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+

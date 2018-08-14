@@ -105,7 +105,7 @@ export default class APP extends wepy.app {
   async onLaunch(param) {
     console.log(
       '%c',
-      "padding:50px 300px;line-height:120px;background:url('https://images0.cnblogs.com/blog/431064/201402/072156353445447.gif') no-repeat;"
+      "padding:50px 300px;line-height:150px;background:url('http://cdn.duitang.com/uploads/item/201410/27/20141027205515_RZ43x.gif') no-repeat;"
     );
     // 校验SDK
     U.checkSDK();

@@ -1,0 +1,9 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var TOKEN = exports.TOKEN = 'TOKEN';
+var EXPIRETOKEN = exports.EXPIRETOKEN = 'EXPIRETOKEN'; //token过期时间
+var USERINFO = exports.USERINFO = 'USERINFO'; //用户信息
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0b3JhZ2VLZXkuanMiXSwibmFtZXMiOlsiVE9LRU4iLCJFWFBJUkVUT0tFTiIsIlVTRVJJTkZPIl0sIm1hcHBpbmdzIjoiOzs7OztBQUNPLElBQUlBLHdCQUFRLE9BQVo7QUFDQSxJQUFJQyxvQ0FBYyxhQUFsQixDLENBQWdDO0FBQ2hDLElBQUlDLDhCQUFXLFVBQWYsQyxDQUEwQiIsImZpbGUiOiJzdG9yYWdlS2V5LmpzIiwic291cmNlc0NvbnRlbnQiOlsiXG5leHBvcnQgbGV0IFRPS0VOID0gJ1RPS0VOJztcbmV4cG9ydCBsZXQgRVhQSVJFVE9LRU4gPSAnRVhQSVJFVE9LRU4nOy8vdG9rZW7ov4fmnJ/ml7bpl7RcbmV4cG9ydCBsZXQgVVNFUklORk8gPSAnVVNFUklORk8nOy8v55So5oi35L+h5oGvIl19
