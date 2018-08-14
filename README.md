@@ -8,6 +8,7 @@
 * 需改进toast组件，加入回调函数做参数并处理回调
 * docs内置通用模板页面快速生成
 * 考虑是否配置 wepy-redux
+* 修复node-sass编译报错
 
 ## 注意事项
 * nrm use taobao
