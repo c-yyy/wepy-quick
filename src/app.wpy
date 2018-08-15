@@ -78,7 +78,6 @@ export default class APP extends wepy.app {
       },
       success(p) {
         let { data, statusCode } = p;
-
         if (statusCode < 300 && statusCode >= 200) {
           return { code: 1, data };
         } else {

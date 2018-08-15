@@ -1,6 +1,0 @@
-module.exports = {
-  text: 'This is from wxs',
-  filter: function (num) {
-    return num+1;
-  }
-};
