@@ -60,7 +60,6 @@ export default class APP extends wepy.app {
   };
 
   globalData = {
-    appid: 'wx1234567',
     version: 'v0.0.1',
     // baseUrl: 'https://xxx.com' // 线上接口地址
     baseUrl: 'http://xxx/com' // 测试接口地址
