@@ -81,7 +81,7 @@ export default class APP extends wepy.app {
         if (statusCode < 300 && statusCode >= 200) {
           return { code: 1, data };
         } else {
-          if (data.code == '2002' || data.code == '2001') {
+          if (data.code == 'xxx' || data.code == 'xxx') {
             wx.setStorageSync(TOKEN, '');
             wx.setStorageSync(EXPIRETOKEN, '');
             return { code: -999, desc: data.msg }; //去登录
