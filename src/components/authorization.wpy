@@ -99,7 +99,7 @@ export default class Auth extends wepy.component {
     color: #6a6a6a;
   }
   .auth {
-    background-color: rgb(89, 240, 140);
+    background-color: yellowgreen;
     font-size: 34rpx;
     color: #000;
     font-weight: 600;
