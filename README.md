@@ -1,5 +1,5 @@
 
-# wepy-evo
+# wepy-quick
 
 ## 基于@wepy1.7.1,小程序开发模板
 * api封装性[✔]
