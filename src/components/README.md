@@ -16,13 +16,23 @@
 
 ## toast调用方法
 ```
+    // 基础用法,当前options只有duration（显示的时长）
+    this.$invoke('toast', func, message, options);
+    // 进阶1
+    this.$invoke('toast', 'success', 'simple-toast success', { duration: 3000 }).then(data => {
+        console.log(data)
+    })
+    // in async function
+    let data = await this.$invoke('toast', 'error', 'simple-toast error', { duration: 5000 })
+    console.log(data)
+    // 进阶2
+    mixins = [toast.mixin]
     // this.$infoTip(message)
     this.$infoTip('simple-toast info')
     //this.$errorTip(message, options)
     this.$errorTip('simple-toast error', { duration: 3000 }).then(data => {
         console.log(data)
       })
- 
     // in async function
     let  data = await this.$warningTip('simple-toast warning', { duration: 3000 })
     console.log(data)
