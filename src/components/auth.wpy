@@ -1,0 +1,120 @@
+<style lang="less" scoped>
+.auth {
+  .mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+  }
+  .auth-alert {
+    width: 600rpx;
+    height: 300rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10rpx;
+    position: fixed;
+    top: 100rpx;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    z-index: 101;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.5s ease;
+    position: relative;
+    button {
+      position: absolute;
+      top: 50rpx;
+      z-index: 2;
+      width: 100rpx;
+      height: 100rpx;
+      border-style: #fff;
+      background: transparent;
+    }
+    .text-1 {
+      position: absolute;
+      z-index: 3;
+      top: 175rpx; // 彩蛋(up身高)
+    }
+    .text-2 {
+      position: absolute;
+      z-index: 3;
+      top: 220rpx;
+      font-size: 24rpx;
+      color: #ccc;
+      text-decoration: line-through;
+    }
+    .auth-img {
+      position: absolute;
+      z-index: 1;
+      top: 50rpx;
+      width: 100rpx;
+      height: 100rpx;
+    }
+  }
+  .show {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .hide {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+</style>
+
+<template>
+    <view class="auth">
+        <view class="mask" wx:if="{{inviteShow}}" @tap.stop="closeLayer" catchtouchmove="{{false}}"></view>
+        <view class="auth-alert {{inviteShow?'show':'hide'}}" catchtouchmove="{{false}}">
+            <image class="auth-img" src="../imgs/auth.png" mode="aspectFit" />
+            <button class="auth" lang="zh_CN" open-type="getUserInfo" bindgetuserinfo="goLogin" @tap="closeLayer"></button>  
+            <text class="text-1">别戳wo~＞﹏＜欧尼酱！</text>
+            <text class="text-2">否则你的昵称、头像就暂时交我保管啦</text>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Auth extends wepy.component {
+  data = {
+    inviteShow: false
+  };
+
+  methods = {
+    closeLayer() {
+      this.inviteShow = false;
+    },
+    openLayer() {
+      this.inviteShow = true;
+    },
+    /**
+     * 授权拿code
+     * code调api换accessToken
+     * 存用户信息
+     */
+    async goLogin(e) {
+      const systemInfo = wepy.getSystemInfoSync();
+      wepy.setStorageSync('systemInfo', systemInfo);
+      wepy.setStorageSync('userInfo', e.detail.userInfo);
+      if (e.detail.errMsg === 'getUserInfo:ok') {
+        const { code } = await wepy.login();
+        const { encryptedData, iv, signature } = await wepy.getUserInfo();
+        // --后续登录--
+      }
+      this.$emit('goLogin', e.detail.userInfo);
+    }
+  };
+
+  async onLoad() {}
+}
+</script>

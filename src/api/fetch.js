@@ -1,11 +1,9 @@
 import wepy from 'wepy'
-import U from './utils'
-import { TOKEN } from './storageKey'
 
 export default class fetch {
   static request(method, url, data) {
     let param = {
-      url: url,
+      url: `${wepy.$instance.globalData.baseUrl}${url}`,
       method: method,
       data: data,
       header: {
@@ -19,7 +17,14 @@ export default class fetch {
   }
   static get(url, data) {
     if (data) {
-      url = `${url}?${U.param(data)}`
+      let arr = []
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          arr.push(`${key}=${data[key]}`)
+          arr.join('&')
+        }
+      }
+      url = `${url}?${arr}`
     }
     return this.request('GET', url)
   }

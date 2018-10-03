@@ -14,21 +14,21 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@': path.join(__dirname, 'src'),
-      'cyw': path.join(__dirname, 'src/components/cyw'),
+      counter: path.join(__dirname, 'src/components/counter'),
+      '@': path.join(__dirname, 'src')
     },
-    // aliasFields: ['wepy'],
+    aliasFields: ['wepy', 'weapp'],
     modules: ['node_modules']
   },
   compilers: {
     less: {
       compress: prod
     },
-    sass: {
+    /*sass: {
       outputStyle: 'compressed'
-    },
+    },*/
     babel: {
-      sourceMap: !prod,
+      sourceMap: true,
       presets: [
         'env'
       ],
@@ -50,7 +50,7 @@ module.exports = {
 if (prod) {
 
   // 压缩sass
-  module.exports.compilers['sass'] = {outputStyle: 'compressed'}
+  // module.exports.compilers['sass'] = {outputStyle: 'compressed'}
 
   // 压缩js
   module.exports.plugins = {

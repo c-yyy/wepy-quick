@@ -12,10 +12,10 @@ export default class testMixin extends wepy.mixin {
   }
 
   onShow() {
-    // console.log('mixin onShow')
+    console.log('mixin onShow')
   }
 
   onLoad() {
-    // console.log('mixin onLoad')
+    console.log('mixin onLoad')
   }
 }

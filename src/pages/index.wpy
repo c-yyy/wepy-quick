@@ -1,0 +1,85 @@
+<style lang="less" scoped>
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  .userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100rpx;
+    .userinfo-avatar {
+      width: 200rpx;
+      height: 200rpx;
+      border-radius: 50%;
+    }
+    .userinfo-nickname,
+    .userinfo-city {
+      color: #aaa;
+    }
+  }
+}
+</style>
+<template>
+  <view class="container">
+    <view class="userinfo">
+      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
+      <view class="userinfo-nickname">{{ userInfo.nickName||'需要登录后才能继续操作...' }}</view>
+      <view class="userinfo-city">{{ userInfo.country }}</view>
+    </view>
+
+    <toast />
+    <auth @goLogin.user="goLogin" />
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import api from '@/api/api';
+import toast from 'wepy-simple-toast';
+import auth from '@/components/auth';
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: 'WeChat'
+  };
+  components = { toast, auth };
+
+  data = {
+    userInfo: wx.getStorageSync('userInfo')
+  };
+
+  mixins = [toast.mixin];
+
+  computed = {};
+
+  methods = {
+    goLogin(query) {
+      this.userInfo = query;
+      this.$apply();
+    }
+  };
+
+  auth() {
+    if (!wx.getStorageSync('userInfo')) {
+      return new Promise((resolve, reject) => {
+        this.$invoke('auth', 'openLayer');
+        resolve('去登录~');
+      })
+        .then(() => {
+          reject();
+        })
+        .catch(error => {
+          console.error(`error:${error}`);
+        });
+    }
+  }
+
+  onLoad() {
+    this.auth();
+  }
+}
+</script>
