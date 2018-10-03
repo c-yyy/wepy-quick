@@ -1,7 +1,7 @@
 {
-  "name": "wepy-all",
-  "version": "0.0.2",
-  "description": "A WePY project",
+  "name": "inpm",
+  "version": "1.1.2",
+  "description": "inpm",
   "main": "dist/app.js",
   "scripts": {
     "start": "wepy build --watch",

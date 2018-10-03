@@ -41,6 +41,7 @@ export default class extends wepy.app {
     this.use('promisify'); // 使用wepy.xxx的方式请求小程序原生API都将Promise化
     this.intercept('request', {
       config(p) {
+        p.timestamp = +new Date();
         return p;
       },
       success(p) {
@@ -60,10 +61,10 @@ export default class extends wepy.app {
   }
 
   async onLaunch() {
-    // await console.log(
-    //   '%c',
-    //   "padding:50px 300px;line-height:150px;background:url('http://cdn.duitang.com/uploads/item/201410/27/20141027205515_RZ43x.gif') no-repeat;"
-    // );
+    await console.log(
+      '%c',
+      "padding:50px 300px;line-height:150px;background:url('http://cdn.duitang.com/uploads/item/201410/27/20141027205515_RZ43x.gif') no-repeat;"
+    );
   }
 }
 </script>
