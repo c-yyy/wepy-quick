@@ -49,7 +49,7 @@ export default class Index extends wepy.page {
   components = { toast, auth };
 
   data = {
-    userInfo: wx.getStorageSync('userInfo')
+    userInfo: wx.getStorageSync('userInfo'),
   };
 
   mixins = [toast.mixin];
