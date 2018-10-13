@@ -16,17 +16,11 @@ export default class fetch {
     return wepy.request(param)
   }
   static get(url, data) {
-    if (data) {
-      let arr = []
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          arr.push(`${key}=${data[key]}`)
-          arr.join('&')
-        }
-      }
-      url = `${url}?${arr}`
+    let arr = [];
+    for (const i in data) {
+      arr.push(`${i}=${data[i]}`)
     }
-    return this.request('GET', url)
+    return this.request('GET', `${url}?${arr.join('&')}`)
   }
   static post(url, data) {
     return this.request('POST', url, data)
