@@ -75,7 +75,7 @@
         <view class="mask" wx:if="{{inviteShow}}" @tap.stop="closeLayer" catchtouchmove="{{false}}"></view>
         <view class="auth-alert {{inviteShow?'show':'hide'}}" catchtouchmove="{{false}}">
             <image class="auth-img" src="../imgs/auth.png" mode="aspectFit" />
-            <button class="auth" lang="zh_CN" open-type="getUserInfo" bindgetuserinfo="goLogin" @tap="closeLayer"></button>  
+            <button class="auth" lang="zh_CN" open-type="getUserInfo" bindgetuserinfo="goLogin" @tap.stop="closeLayer"></button>  
             <text class="text-1">别戳wo~＞﹏＜欧尼酱！</text>
             <text class="text-2">否则你的昵称、头像就暂时交我保管啦</text>
         </view>
@@ -114,7 +114,5 @@ export default class Auth extends wepy.component {
       this.$emit('goLogin', e.detail.userInfo);
     }
   };
-
-  async onLoad() {}
 }
 </script>
