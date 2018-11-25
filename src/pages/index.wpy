@@ -27,7 +27,7 @@
   <view class="container">
     <view class="userinfo">
       <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
-      <view class="userinfo-nickname">{{ userInfo.nickName||'需要登录后才能继续操作...' }}</view>
+      <view class="userinfo-nickname" @tap.stop="auth">{{ userInfo.nickName||'需要登录后才能继续操作...' }}</view>
       <view class="userinfo-city">{{ userInfo.country }}</view>
     </view>
 
@@ -65,16 +65,9 @@ export default class Index extends wepy.page {
 
   auth() {
     if (!wx.getStorageSync('userInfo')) {
-      return new Promise((resolve, reject) => {
+      return new Promise(() => {
         this.$invoke('auth', 'openLayer');
-        resolve('去登录~');
       })
-        .then(() => {
-          reject();
-        })
-        .catch(error => {
-          console.error(`error:${error}`);
-        });
     }
   }
 
