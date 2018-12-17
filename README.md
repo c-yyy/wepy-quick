@@ -1,5 +1,7 @@
 
-# wepy-quick
+# wepy-quick（用下面这个）
+
+# git clone https://github.com/c-yyy/wepy-quick.git --depth=1
 
 ## 基于@wepy1.7.2,小程序开发模板
 * 接入云开发[30%]
