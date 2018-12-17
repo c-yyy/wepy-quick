@@ -1,13 +1,25 @@
-/dist
-node_modules/
-package-lock.json
+# ---> Yii
+assets/*
+!assets/.gitignore
+runtime/*
+!runtime/.gitignore
+web/assets/*
+tests/
+.settings/
+.buildpath
+.project
 .idea
-.vscode/
-*.log
-.DS_Store
+node_modules
+test.js
 npm-debug.log
-npm-debug.log.*
-selenium-debug.log
-.vscode
-.wepyignore
-.wepycache
+dist
+node_modules
+
+
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+*.wepycache
