@@ -1,0 +1,37 @@
+<style lang="less" src="./index.less"></style>
+<style lang="less" src="../loading/index.less"></style>
+<template>
+  <view class="loadmore">
+    <block wx:if="{{more.type}}">
+      <view class="loading-content inline">
+        <view class="loading-type circular"></view>
+        <text>{{more.loading || '加载中'}}</text>
+      </view> 
+    </block>
+    <block wx:else>
+      <text class="lighter">————</text><text> {{more.loaded || '加载完成'}} </text><text class="lighter">————</text>
+    </block>
+  </view>
+  
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class LoadMore extends wepy.component {
+    props = {
+      more: {
+        type: Object,
+        twoWay: true,
+        default: {}
+      }
+    }
+
+    data = {
+    }
+
+    methods = {
+    }
+
+    onLoad () {
+    }
+  }
+</script>

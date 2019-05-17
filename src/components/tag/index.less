@@ -1,0 +1,95 @@
+@import '../../less/color.less';
+
+.tag {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  line-height: 16px;
+  padding: 0 5px;
+  border-radius: 2px;
+  font-size: 11px;
+  background: #c9c9c9;
+  text-align: center;
+  color: #fff
+}
+
+.tag::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  transform: scale(.5);
+  transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  border: 0 solid #e5e5e5;
+  border-width: 1px;
+  border-radius: 4px
+}
+
+.empty {
+  color: #c9c9c9;
+  background: #fff
+}
+
+.kai {
+  color: #666;
+  background: #fff;
+}
+
+.kai::after {
+  border-color: #666;
+}
+
+.primary {
+  color: #fff;
+  background-color: @success
+}
+
+.primary::after {
+  border-color: @success
+}
+
+.primary.empty {
+  color: @success;
+  background: #fff
+}
+
+.danger {
+  color: #fff;
+  background: #f44
+}
+
+.danger::after {
+  border-color: #f44
+}
+
+.danger.empty {
+  color: #f44;
+  background: #fff
+}
+
+.warn {
+  color: #fff;
+  background: #f85
+}
+
+.warn::after {
+  border-color: #f85
+}
+
+.warn.empty {
+  color: #f85;
+  background: #fff
+}
+
+.disabled {
+  color: #999 !important;
+  background: #e5e5e5
+}
+
+.disabled::after {
+  border-color: #ccc
+}

@@ -1,0 +1,43 @@
+.numberpicker {
+  display:flex;
+  flex-direction:row;
+  color:#666;
+  .numberpicker-minus {
+    border-right: none;
+    border-radius:2px 0 0 2px;
+  }
+  .numberpicker-plus {
+    border-left: none;
+    border-radius:0 2px 2px 0;
+  }
+  .numberpicker-disabled {
+    background:#f8f8f8;
+    color:#bbb;
+    border-color:#e8e8e8;
+  }
+  view {
+    width:26px;
+  }
+  .numberpicker-input {
+    font-size:12px;
+    width:36px;
+  }
+  view, .numberpicker-input {
+    line-height:24px;
+    height:24px;
+    text-align:center;
+    border:1rpx solid #999;
+  }
+}
+.numberpicker.large {
+  view {
+    width:32px;
+  }
+  .numberpicker-input {
+    width:42px;
+  }
+  view, .numberpicker-input{
+    line-height:28px;
+    height:28px;
+  }
+}

@@ -1,0 +1,30 @@
+.swipeout-container {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  background: #efefef;
+  .swipeout-content {
+    z-index: 2;
+    width:100%;
+    min-height: 60px;
+    background: #fff;
+  }
+  .swipeout-content__mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+  }
+  .swipeout-action {
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height:100%;
+    view {
+      display: flex;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<style lang="less" src="./index.less"></style>
+<template>
+  <view class="tag {{type ? type : ''}}">
+    <slot></slot>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Tag extends wepy.component {
+    props = {
+      type: {
+        type: String,
+        twoWay: true,
+        default: ''
+      }
+    }
+
+    data = {
+    }
+
+    events = {}
+
+    methods = {
+    }
+
+    onLoad () {
+    }
+  }
+</script>

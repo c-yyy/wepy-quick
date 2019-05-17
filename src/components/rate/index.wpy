@@ -1,0 +1,58 @@
+<style lang="less" src="./index.less"></style>
+<template>
+  <view class="rate-container font-14 {{type==='vertical'?'rate-container__vertical':'rate-container__horizontal'}}">
+    <view class="rate-title">{{title}}</view>
+    <view class="rate-content">
+      <repeat for="{{[1, 2, 3, 4, 5]}}" key="index" index="index" item="item">
+        <icon1 wx:if="{{value>index}}" class="rate-icon rate-icon__stared" type="starbg" event="star"/>
+        <icon2 wx:else class="rate-icon" type="stargap" event="star"/>
+      </repeat>
+      <view class="rate-desc" wx:if="{{value>0}}">{{desc[value-1]}}</view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import Icon from '../icon/index'
+
+  export default class Rate extends wepy.component {
+    props = {
+      title: {
+        type: String,
+        default: ''
+      },
+      value: {
+        type: [String, Number],
+        default: 0,
+        twoWay: true,
+        coerce (v) {
+          return Number(v)
+        }
+      },
+      desc: {
+        type: Array,
+        default: [
+          '1星',
+          '2星',
+          '3星',
+          '4星',
+          '5星'
+        ]
+      },
+      type: {
+        type: String,
+        default: 'horizontal'
+      }
+    }
+    components = {
+      icon1: Icon,
+      icon2: Icon
+    }
+    events = {
+      star (e) {
+        const index = Number(e.source.$index)
+        this.value = index + 1
+      }
+    }
+  }
+</script>

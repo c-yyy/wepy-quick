@@ -1,0 +1,54 @@
+.toast {
+  .toast-wrap {
+    position: fixed;
+    z-index: 999;
+    left: 50%;
+    padding: 10px 15px;
+    background:rgba(0,0,0,0.8);
+    color:#fff;
+    font-size: 12px;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity .3s;
+    text-align:center;
+    display: none;
+    .toast-wrap__icon {
+        margin-bottom: 2px;
+      .kai-iconfont {
+        font-weight: bold;
+      }
+      .kai-iconfont {
+        font-size: 50rpx;
+      }
+      .loading-content {
+        margin-top: 5px;
+        margin-bottom: 15px;
+      }
+      .toast-loading {
+        .loading-type {
+          border-color: #fff;
+          border-top-color:#666;
+        }
+      }
+    }
+  }
+  .toast-show {
+    opacity: 1;
+    display: block;
+    .icon-loading {
+      animation: btn-spin 1s linear infinite;
+    }
+  }
+  .toast-middle {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .toast-top {
+    top: 0;
+    transform: translateX(-50%);
+  }
+  .toast-bottom {
+    bottom: 0;
+    transform: translateX(-50%);
+  }
+}

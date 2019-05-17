@@ -1,0 +1,63 @@
+@import "../../less/font.less";
+
+view {
+  overflow: visible;
+}
+.ac-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, .5);
+  display: none
+}
+.ac-container {
+  position: fixed;
+  left: 0;
+  z-index: 11;
+  width: 100%;
+}
+.ac-content {
+  position: fixed;
+  left: 0;
+  background-color: #E7E6EB;
+  transform: translate3d(0, 0, 0);
+  transform-origin: center;
+  transition: all .4s ease;
+  z-index: 100;
+  width: 100%;
+  opacity: 0
+}
+.ac-content.top {
+  top: -100vh;
+}
+.ac-content.bottom {
+  bottom: -100vh;
+}
+.ac-show .top {
+  opacity: 1;
+  top: 0;
+}
+.ac-show .bottom {
+  opacity: 1;
+  bottom: 0;
+}
+.ac-show .ac-mask{
+  display: block
+}
+.ac-list {
+  text-align: center;
+  font-size: 12px;
+  border-bottom: 1rpx solid #e1e1e1;
+  min-height: 45px;
+  line-height: 45px;
+  background: #fff;
+  &:last-of-type {
+    border-bottom: none;
+  }
+  &.mt5 {
+    margin-top: 5px;
+  }
+}
