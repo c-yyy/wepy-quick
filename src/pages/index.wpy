@@ -25,13 +25,11 @@
 </style>
 <template>
   <view class="container">
-    <!-- <view class="userinfo">
+    <view class="userinfo">
       <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
       <view class="userinfo-nickname" @tap.stop="auth">{{ userInfo.nickName||'需要登录后才能继续操作...' }}</view>
       <view class="userinfo-city">{{ userInfo.country }}</view>
-    </view> -->
-    <!-- <web-view src="https://floorplan.workai.tiegushi.com/"></web-view> -->
-    <web-view src="https://sharpaistat.workai.tiegushi.com/"></web-view>
+    </view>
 
     <toast />
     <auth @goLogin.user="goLogin" />
